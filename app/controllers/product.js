@@ -55,7 +55,7 @@ function deleteProduct (req, res) {
 
   Product.findById(productId, (err, product) => {
     if (err) res.status(500).send({message: `Error al borrar el producto: ${err}`})
-
+    if (!product) return res.status(404).send({message: `El producto no existe`})
     product.remove(err => {
       if (err) res.status(500).send({message: `Error al borrar el producto: ${err}`})
       res.status(200).send({message: 'El producto ha sido eliminado'})
