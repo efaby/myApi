@@ -5,18 +5,17 @@ const Product = require('../models/product')
 function getProduct (req, res) {
   let productId = req.params.productId
   Product.findById(productId, (err, product) => {
-    if (err) return res.status(500).send({message: `Error al realizar la petición: ${err}`})
-    if (!product) return res.status(404).send({message: `El producto no existe`})
+    if (err) return res.status(500).send({message: `Error making the request: ${err}`})
+    if (!product) return res.status(404).send({message: `The product does not exist!`})
     res.status(200).send({ product })
   })
 }
 
 function getProducts (req, res) {
   Product.find({}, (err, products) => {
-    if (err) return res.status(500).send({message: `Error al realizar la petición: ${err}`})
-    if (!products) return res.status(404).send({message: 'No existen productos'})
-
-    res.send(200, { products })
+    if (err) return res.status(500).send({message: `Error making the request: ${err}`})
+    if (!products) return res.status(404).send({message: 'There are no products'})
+    res.status(200).send({ products })
   })
 }
 
@@ -24,7 +23,7 @@ function saveProduct (req, res) {
   let product = new Product()
   setData(product, req);
   product.save((err, productStored) => {
-    if (err) res.status(500).send({message: `Error al salvar en la base de datos: ${err} `})
+    if (err) res.status(500).send({message: `Error saving in the database: ${err} `})
     res.status(200).send({ product: productStored })
   })
 }
@@ -32,11 +31,11 @@ function saveProduct (req, res) {
 function updateProduct (req, res) {
   let productId = req.params.productId
   Product.findById(productId, (err, product) => {
-    if (err) return res.status(500).send({message: `Error al realizar la petición: ${err}`})
-    if (!product) return res.status(404).send({message: `El producto no existe`})
+    if (err) return res.status(500).send({message: `Error making the request: ${err}`})
+    if (!product) return res.status(404).send({message: `The product does not exist!`})
     setData(product, req);
     product.save((err, productStored) => {
-    if (err) res.status(500).send({message: `Error al actualizar el producto: ${err}`})
+    if (err) res.status(500).send({message: `Error updating the product: ${err}`})
       res.status(200).send({ product: productStored })
     })
   })
@@ -54,11 +53,11 @@ function deleteProduct (req, res) {
   let productId = req.params.productId
 
   Product.findById(productId, (err, product) => {
-    if (err) res.status(500).send({message: `Error al borrar el producto: ${err}`})
-    if (!product) return res.status(404).send({message: `El producto no existe`})
+    if (err) res.status(500).send({message: `Error deleting the product: ${err}`})
+    if (!product) return res.status(404).send({message: `The product does not exist!`})
     product.remove(err => {
-      if (err) res.status(500).send({message: `Error al borrar el producto: ${err}`})
-      res.status(200).send({message: 'El producto ha sido eliminado'})
+      if (err) res.status(500).send({message: `Error deleting the product: ${err}`})
+      res.status(200).send({message: 'Product successfully deleted!'})
     })
   })
 }

@@ -9,7 +9,8 @@
 	"license": "MIT",
 	"scripts": {
 		"lint": "eslint .",
-		"dev": "node app.js"
+		"dev": "node app.js",
+		"test": "mocha --timeout 5000"
 	},
 	"dependencies": {
 		"bcrypt": "^3.0.6",
@@ -22,5 +23,10 @@
 		"morgan": "^1.9.1",
 		"swagger-jsdoc": "^3.2.9",
 		"swagger-ui-express": "^4.0.2"
+	},
+	"devDependencies": {
+		"chai": "^4.2.0",
+		"chai-http": "^4.3.0",
+		"mocha": "^6.1.4"
 	}
 }
