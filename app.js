@@ -51,3 +51,5 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 const server = app.listen(process.env.PORT || 5001, () => {
     console.log("Api RestFull is running on port", server.address().port);
 });
+
+module.exports = app;
