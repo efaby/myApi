@@ -23,7 +23,7 @@ function saveProduct (req, res) {
   let product = new Product()
   setData(product, req);
   product.save((err, productStored) => {
-    if (err) res.status(500).send({message: `Error saving in the database: ${err} `})
+    if (err) return res.status(500).send({message: `Error saving in the database: ${err} `})
     res.status(200).send({ product: productStored })
   })
 }
@@ -35,13 +35,18 @@ function updateProduct (req, res) {
     if (!product) return res.status(404).send({message: `The product does not exist!`})
     setData(product, req);
     product.save((err, productStored) => {
-    if (err) res.status(500).send({message: `Error updating the product: ${err}`})
+    if (err) return res.status(500).send({message: `Error updating the product: ${err}`})
       res.status(200).send({ product: productStored })
     })
   })
 }
 
 function setData(product, req) {
+  if(!req.body) {
+      return res.status(400).send({
+          message: "Product content can not be empty"
+      });
+  }
   product.name = req.body.name
   product.picture = req.body.picture
   product.price = req.body.price
@@ -53,10 +58,10 @@ function deleteProduct (req, res) {
   let productId = req.params.productId
 
   Product.findById(productId, (err, product) => {
-    if (err) res.status(500).send({message: `Error deleting the product: ${err}`})
+    if (err) return res.status(500).send({message: `Error deleting the product: ${err}`})
     if (!product) return res.status(404).send({message: `The product does not exist!`})
     product.remove(err => {
-      if (err) res.status(500).send({message: `Error deleting the product: ${err}`})
+      if (err) return res.status(500).send({message: `Error deleting the product: ${err}`})
       res.status(200).send({message: 'Product successfully deleted!'})
     })
   })

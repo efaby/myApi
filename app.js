@@ -7,10 +7,13 @@ const cors = require("cors");
 const config = require("./config/config");
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
+const helmet = require('helmet');
+
 
 const app = express();
 const router = express.Router();
 
+app.use(helmet());
 app.use(cors());
 app.use(morgan("dev"));
 app.use(bodyParser.json());
@@ -18,6 +21,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 mongoose.connect(config.database, { useNewUrlParser: true });
 routes(router);
 app.use("/api", router);
+
 
 // -- setup up swagger-jsdoc --
 const swaggerDefinition = {
