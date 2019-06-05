@@ -4,5 +4,5 @@ module.exports = {
         "password": process.env.PASSWORD ? process.env.PASSWORD : "passapi"
     },
     "secret": "phaseSecureMyAPI",
-    "database": process.env.DB_CONNECTION ? process.env.DB_CONNECTION : "mongodb://localhost:27017/myapiDB",
+    "database": process.env.MONGODB_URI ? process.env.MONGODB_URI : "mongodb://localhost:27017/myapiDB",
 };
