@@ -8,10 +8,18 @@ const config = require("./config/config");
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 const helmet = require('helmet');
+const rateLimit = require("express-rate-limit");
 
 
 const app = express();
 const router = express.Router();
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs,
+  message: "Too many accounts created from this IP, please try again after an hour"
+});
+ 
 
 app.use(helmet());
 app.use(cors());
@@ -20,6 +28,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 mongoose.connect(config.database, { useNewUrlParser: true });
 routes(router);
+app.use("/api/", limiter);
 app.use("/api", router);
 
 
