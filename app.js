@@ -31,6 +31,7 @@ routes(router);
 app.use("/api/", limiter);
 app.use("/api", router);
 
+app.get('*', function(req, res) { res.status(404).send({message: 'page not found!'}) });
 
 // -- setup up swagger-jsdoc --
 const swaggerDefinition = {
