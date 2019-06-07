@@ -9,6 +9,8 @@ const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 const helmet = require('helmet');
 const rateLimit = require("express-rate-limit");
+const noCache = require('nocache')
+
 
 
 const app = express();
@@ -22,6 +24,10 @@ const limiter = rateLimit({
  
 
 app.use(helmet());
+app.use(noCache());
+const corsOptions = {
+  origin: 'https://yourdomain.com'
+}
 app.use(cors());
 app.use(morgan("dev"));
 app.use(bodyParser.json());
