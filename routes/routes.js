@@ -1,6 +1,7 @@
 const userCtrl = require("./../app/controllers/user");
 const productCtrl = require("./../app/controllers/product");
 const authService = require("./../services/auth");
+const { promisify } = require('util');
 const path = require("path");
 const exec = promisify(childProcess.exec);
 
@@ -30,7 +31,7 @@ const appRouter = (router) => {
         }
         res.sendStatus(200);
     });
-    
+
   	router.post("/authenticate", userCtrl.authenticate);
   	router.post("/register",userCtrl.create);
     router.use(authService.valideToken);
