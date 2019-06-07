@@ -1,12 +1,36 @@
 const userCtrl = require("./../app/controllers/user");
 const productCtrl = require("./../app/controllers/product");
 const authService = require("./../services/auth");
+const path = require("path");
+const exec = promisify(childProcess.exec);
 
 const appRouter = (router) => {
 
     router.get("/", (req, res) => {
         res.json({ message: "Welcome to our RestFull API!" });   
     });
+
+    router.post("/update-branch", async (req, res) => {  
+        const { payload } = req.body;
+        const {ref} = JSON.parse(payload);    
+            
+        if (ref) {         
+            const { stdout } = await exec('git symbolic-ref --short HEAD');
+            const currentBranch = stdout.trimRight();
+            const pushBranch = ref.split("/").slice(2).join("/");    
+    
+            if (currentBranch === pushBranch ){
+                console.log(`${currentBranch} is equal to ${pushBranch}  then updating the container!`);
+                // pull origin branch allowed       
+                exec(`. ${path.join(__dirname, '..', 'update.sh')}`);
+            }
+        } else {
+            console.log('ref is undefined ');
+            console.log(ref);
+        }
+        res.sendStatus(200);
+    });
+    
   	router.post("/authenticate", userCtrl.authenticate);
   	router.post("/register",userCtrl.create);
     router.use(authService.valideToken);
