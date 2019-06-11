@@ -15,7 +15,7 @@ describe('Task API Products', () => {
       it('it should authenticar To user', (done) => {
         chai.request(server)
             .post('/api/authenticate')
-            .send({'email': 'efaby10@gmail.com', 'password': 'soloyose'})
+            .send({'email': 'efaby10@gmail.com', 'password': '123456'})
             .end((err, res) => {
                   res.should.have.status(200);
                   res.body.should.be.a('object');

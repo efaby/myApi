@@ -37,7 +37,7 @@ routes(router);
 app.use("/api/", limiter);
 app.use("/api", router);
 
-app.get('*', function(req, res) { res.status(404).send({message: 'page not found!'}) });
+
 
 // -- setup up swagger-jsdoc --
 const swaggerDefinition = {
@@ -67,7 +67,7 @@ app.get("/ping", (req, res) => {
 });
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-
+app.get('*', function(req, res) { res.status(404).send({message: 'page not found!'}) });
 const server = app.listen(process.env.PORT || 5001, () => {
     console.log("Api RestFull is running on port", server.address().port);
 });
